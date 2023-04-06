@@ -1,0 +1,27 @@
+.sidebar {
+    width: 20%;
+    height: 100vh;
+    box-shadow: 9px 0px 14px 0px rgba(34, 60, 80, 0.64);
+    background: rgb(31, 48, 148);
+    background: linear-gradient(
+            0deg,
+            rgba(31, 48, 148, 1) 6%,
+            rgba(34, 193, 195, 1) 100%
+    );
+    opacity: 0.9;
+    transition: all 2s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.logo {
+    width: 70%;
+}
+
+.containerLogo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 30px;
+}
