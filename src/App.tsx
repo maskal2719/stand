@@ -5,6 +5,7 @@ import axios from 'axios';
 import video from './Assets/video.mp4';
 import Sidebar from "./components/sidebar/Sidebar";
 import {Box, Modal, Typography} from "@mui/material";
+import {useIdleTimer} from "react-idle-timer";
 
 export type MainType = {
     deleteable: boolean
@@ -42,7 +43,7 @@ function App() {
 
     const [appStructureState, setStructureState] = useState<AppStructureStateType | null>(null);
     const [currentFolder, setCurrentFolder] = useState<MainType[]>([]);
-    const [currentPath, setCurrentPath] = useState<string[]>([]);
+    const [currentPath, setCurrentPath] = useState<MainType[]>([]);
     const [uuidDoc, setUuidDoc] = useState('')
 
     const [showModal, setShowModal] = useState(false);
@@ -71,33 +72,38 @@ function App() {
             .then((resp) => {
                 setStructureState(resp.data);
                 setCurrentFolder(resp.data.all.items)
-                setCurrentPath([resp.data.all.name])
+                setCurrentPath([resp.data.all])
             });
     }, []);
 
     const goTo = (el: any) => {
         if (el.isDirectory) {
             setCurrentFolder(el.items)
-            setCurrentPath([...currentPath, el.name])
+            setCurrentPath([...currentPath, el])
         } else if (!el.isDirectory) {
             setUuidDoc(el.document.uuid)
             openModal()
         }
-    };
+    }
+    const goBack = () => {
+        if(currentPath.length > 1) {
+            setCurrentPath(currentPath)
+            setCurrentFolder(currentPath[currentPath.length-1].items)
+        }
 
+    }
+
+    console.log(currentPath)
+    console.log(currentFolder)
 
     return (
         <div className={'container'}>
             <Sidebar/>
-            {/*<div>*/}
-            {/*    {currentPath.map((el) => (*/}
-            {/*        <span onClick={() => console.log(el)} className={'path'} key={el}>{el}/</span>*/}
-            {/*    ))}*/}
-            {/*</div>*/}
             <div className="video-container">
                 <video autoPlay muted loop src={video}></video>
             </div>
             <div className='content'>
+                <button onClick={goBack}>Back</button>
                 {currentFolder?.map((el) =>
                     <div onClick={() => goTo(el)}
                          className='block'
