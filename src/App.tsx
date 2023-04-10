@@ -90,7 +90,6 @@ function App() {
             setCurrentPath(currentPath)
             setCurrentFolder(currentPath[currentPath.length-1].items)
         }
-
     }
 
     console.log(currentPath)
