@@ -14,15 +14,10 @@ const Sidebar = () => {
 
     // let time = moment().format('H:mm:ss')
     let date = moment().format('dddd Do MMMM YYYY')
-    const begin = new Date("2023-01-01")
-    const end = new Date("2023-04-30")
-
     const [time, setTime] = useState(moment().format('H:mm:ss'))
     const [gasCounter, setGasCounter] = useState<GasCounterType | null>(null)
     const [gas, setGas] = useState(0)
     const [dateStart, setDateStart] = useState(new Date())
-
-    let now = new Date()
 
 
     useEffect(() => {
@@ -33,24 +28,9 @@ const Sidebar = () => {
             })
         setInterval(() => setTime(moment().format('H:mm:ss')), 1000)
     }, [])
-    let dateTest2 = new Date(dateStart)
-    // const totalSeconds = (end.getTime() - begin.getTime()) / 100
-    // let intervalTest = ((now.getTime() - dateTest2.getTime()) - (now.getTime() - dateTest2.getTime()) % 1000) / 1000
-    // let gasSold = (Number(gasCounter?.count)) - ((Number(gasCounter?.count)) / (dateTest2.getMonth() + 1))
-    // let gasPerSeconds = (((Number(gasCounter?.count))) / 30 / 24 / 3600).toFixed(2)
-
-
-    // useEffect(() => {
-    //     setTimeout(() => {
-    //         setGas(res)
-    //     }, 980)
-    // },[gas])
-
-    const [currentNumber, setCurrentNumber] = useState(0);
-
     useEffect(() => {
         const startDate = new Date('2023-01-01');
-        let now = new Date()
+        const now = new Date()
         const endDate = new Date(dateStart);
 
         const totalSeconds = ((endDate.getTime() - startDate.getTime()) - (endDate.getTime() - startDate.getTime()) % 100) / 1000;
@@ -63,10 +43,10 @@ const Sidebar = () => {
         let i = Math.round(unitsPerSecond * Number(gasIn)) + gasSoldToday
 
         setTimeout(() => {
-            setCurrentNumber(i)
+            setGas(i)
         }, 980)
 
-    }, [currentNumber]);
+    }, [gas]);
 
 
 
@@ -85,7 +65,7 @@ const Sidebar = () => {
             </div>
             <div className={style.gasCounter}>
                 <div>Реализовано газа за 2023 год</div>
-                <div>{`${Math.floor(currentNumber)}`}</div>
+                <div>{`${Math.floor(gas)}`} м<sup>3</sup></div>
             </div>
         </div>
     );
