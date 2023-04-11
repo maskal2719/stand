@@ -4,8 +4,7 @@ import axios from 'axios';
 // @ts-ignore
 import video from './Assets/video.mp4';
 import Sidebar from "./components/sidebar/Sidebar";
-import {Box, Modal, Typography} from "@mui/material";
-import {useIdleTimer} from "react-idle-timer";
+import {Box, Button, Modal, Typography} from "@mui/material";
 
 export type MainType = {
     deleteable: boolean
@@ -68,13 +67,14 @@ function App() {
 
     useEffect(() => {
         axios
-            .get<AppStructureStateType>('http://192.168.0.211:80/api/stand')
+            .get<AppStructureStateType>('http://192.168.0.211:81/api/stand')
             .then((resp) => {
                 setStructureState(resp.data);
                 setCurrentFolder(resp.data.all.items)
                 setCurrentPath([resp.data.all])
             });
     }, []);
+
 
     const goTo = (el: any) => {
         if (el.isDirectory) {
@@ -87,8 +87,11 @@ function App() {
     }
     const goBack = () => {
         if(currentPath.length > 1) {
+            setCurrentFolder([...currentPath[currentPath.length-2].items])
+            setCurrentPath(currentPath.slice(0,currentPath.length-1))
+        }else {
+            setCurrentFolder([...currentPath[currentPath.length-1].items])
             setCurrentPath(currentPath)
-            setCurrentFolder(currentPath[currentPath.length-1].items)
         }
     }
 
@@ -102,7 +105,7 @@ function App() {
                 <video autoPlay muted loop src={video}></video>
             </div>
             <div className='content'>
-                <button onClick={goBack}>Back</button>
+                {currentPath.length > 1 && <Button onClick={goBack} variant="contained" >Back</Button>}
                 {currentFolder?.map((el) =>
                     <div onClick={() => goTo(el)}
                          className='block'
