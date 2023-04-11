@@ -44,11 +44,9 @@ const Sidebar = () => {
 
         setTimeout(() => {
             setGas(i)
-        }, 980)
+        }, 1000)
 
     }, [gas]);
-
-
 
     return (
         <div className={style.sidebar}>
