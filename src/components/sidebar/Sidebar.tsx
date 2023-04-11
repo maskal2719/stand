@@ -50,27 +50,24 @@ const Sidebar = () => {
 
     useEffect(() => {
         const startDate = new Date('2023-01-01');
-        const now = new Date('2023-04-11')
-        const endDate = new Date('2023-04-30');
+        let now = new Date()
+        const endDate = new Date(dateStart);
 
-        const totalSeconds = (endDate.getTime() - startDate.getTime()) / 1000;
-        const totalSecToday = (now.getTime() - startDate.getTime()) / 1000
+        const totalSeconds = ((endDate.getTime() - startDate.getTime()) - (endDate.getTime() - startDate.getTime()) % 100) / 1000;
+        const totalSecToday = ((now.getTime() - startDate.getTime()) - (now.getTime() - startDate.getTime()) % 1000) / 1000
         let unitsPerSecond = Number(gasCounter?.count) / totalSeconds
-        let gasSold = unitsPerSecond * totalSecToday;
-        let gasIn = ((Number(gasCounter?.count) - gasSold) / 30 / 24 / 3600)
-        console.log(gasIn)
-        console.log(gasSold)
-        console.log(gasSold)
+        let gasSoldToday = unitsPerSecond * totalSecToday;
+        let gasIn = ((Number(gasCounter?.count) - gasSoldToday) / 30 / 24 / 3600)
 
-        let i = Math.round(unitsPerSecond * Number(gasIn)) + gasSold
+
+        let i = Math.round(unitsPerSecond * Number(gasIn)) + gasSoldToday
 
         setTimeout(() => {
             setCurrentNumber(i)
         }, 980)
 
-    }, []);
+    }, [currentNumber]);
 
-    console.log(currentNumber)
 
 
     return (
