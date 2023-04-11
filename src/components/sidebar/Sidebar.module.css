@@ -27,7 +27,7 @@
     margin-top: 30px;
 }
 
-.time {
+.time, .gasCounter {
     display: flex;
     flex-direction: column;
     align-items: center;

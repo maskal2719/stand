@@ -86,12 +86,9 @@ function App() {
         }
     }
     const goBack = () => {
-        if(currentPath.length > 1) {
-            setCurrentFolder([...currentPath[currentPath.length-2].items])
-            setCurrentPath(currentPath.slice(0,currentPath.length-1))
-        }else {
-            setCurrentFolder([...currentPath[currentPath.length-1].items])
-            setCurrentPath(currentPath)
+        if (currentPath.length > 1) {
+            setCurrentFolder([...currentPath[currentPath.length - 2].items])
+            setCurrentPath(currentPath.slice(0, currentPath.length - 1))
         }
     }
 
@@ -105,7 +102,7 @@ function App() {
                 <video autoPlay muted loop src={video}></video>
             </div>
             <div className='content'>
-                {currentPath.length > 1 && <Button onClick={goBack} variant="contained" >Back</Button>}
+                {currentPath.length > 1 && <Button onClick={goBack} variant="contained">Назад</Button>}
                 {currentFolder?.map((el) =>
                     <div onClick={() => goTo(el)}
                          className='block'
