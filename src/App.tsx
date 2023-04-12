@@ -102,7 +102,7 @@ function App() {
                 <video autoPlay muted loop src={video}></video>
             </div>
             <div className='content'>
-                {currentPath.length > 1 && <Button onClick={goBack} variant="contained">Назад</Button>}
+                {currentPath.length > 1 && <Button style={{position: 'absolute', left: '90px', top: '520px'}} onClick={goBack} variant="contained" size='large'>Назад</Button>}
                 {currentFolder?.map((el) =>
                     <div onClick={() => goTo(el)}
                          className='block'
