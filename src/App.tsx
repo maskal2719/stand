@@ -5,6 +5,7 @@ import axios from 'axios';
 import video from './Assets/video.mp4';
 import Sidebar from "./components/sidebar/Sidebar";
 import {Box, Button, Modal, Typography} from "@mui/material";
+import {useIdleTimer} from "react-idle-timer";
 
 export type MainType = {
     deleteable: boolean
@@ -44,6 +45,34 @@ function App() {
     const [currentFolder, setCurrentFolder] = useState<MainType[]>([]);
     const [currentPath, setCurrentPath] = useState<MainType[]>([]);
     const [uuidDoc, setUuidDoc] = useState('')
+    //
+    // //Для отслеживания бездействия поьзователя ---------------------------------------
+    // const [event, setEvent] = useState<string>('Event')
+    // const [elapsed, setElapsed] = useState<number>(0)
+    //
+    // const onAction = (event?: Event) => {
+    //     setEvent(event?.type ?? 'Event')
+    //     reset()
+    // }
+    //
+    // const { getElapsedTime, reset } = useIdleTimer({
+    //     onAction,
+    //     timeout: 10_000,
+    //     throttle: 500
+    // })
+    //
+    // useEffect(() => {
+    //     const interval = setInterval(() => {
+    //         setElapsed(Math.ceil(getElapsedTime() / 1000))
+    //     }, 1000)
+    //
+    //     return () => {
+    //         clearInterval(interval)
+    //     }
+    // })
+    //
+    // console.log(elapsed)
+    //Для отслеживания бездействия поьзователя ---------------------------------------
 
     const [showModal, setShowModal] = useState(false);
     let htmlFile = `http://localhost:3000/pdfReaderFlipbook/index.html?id=${uuidDoc}`
