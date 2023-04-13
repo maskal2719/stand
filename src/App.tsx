@@ -4,7 +4,8 @@ import axios from 'axios';
 // @ts-ignore
 import video from './Assets/video.mp4';
 import Sidebar from "./components/sidebar/Sidebar";
-import {Box, Button, Modal, Typography} from "@mui/material";
+import {Box, Button, IconButton, Modal, Typography} from "@mui/material";
+import CloseIcon from '@mui/icons-material/Close';
 import {useIdleTimer} from "react-idle-timer";
 
 export type MainType = {
@@ -131,7 +132,9 @@ function App() {
                 <video autoPlay muted loop src={video}></video>
             </div>
             <div className='content'>
-                {currentPath.length > 1 && <Button style={{position: 'absolute', left: '90px', top: '520px'}} onClick={goBack} variant="contained" size='large'>Назад</Button>}
+                {currentPath.length > 1 &&
+                    <Button style={{position: 'absolute', left: '90px', top: '520px'}} onClick={goBack}
+                            variant="contained" size='large'>Назад</Button>}
                 {currentFolder?.map((el) =>
                     <div onClick={() => goTo(el)}
                          className='block'
@@ -148,9 +151,12 @@ function App() {
                     >
                         <Box sx={style}>
                             <iframe src={htmlFile} title="Pdf"></iframe>
+                            <IconButton onClick={closeModal} style={{position: 'absolute', top: '0', right: '0'}}
+                                        color='error' size={'large'}>
+                                <CloseIcon fontSize={"large"}/>
+                            </IconButton>
                         </Box>
                     </Modal>
-
                 </>
             }
         </div>
