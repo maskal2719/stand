@@ -3,6 +3,7 @@ import style from "../Sidebar.module.css";
 
 import {GasCounterType} from "../Sidebar";
 import axios from "axios";
+import {getGasCounter} from "../../../api/api";
 
 const GasCounter = () => {
 
@@ -12,7 +13,7 @@ const GasCounter = () => {
 
 
     useEffect(() => {
-        axios.get<GasCounterType>('http://192.168.0.211:81/api/stand/gas')
+        getGasCounter()
             .then((resp) => {
                 setGasCounter(resp.data)
                 setDateStart(resp.data.to_date)

@@ -7,6 +7,7 @@ import Sidebar from "./components/sidebar/Sidebar";
 import {Box, Button, IconButton, Modal, Typography} from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
 import {useIdleTimer} from "react-idle-timer";
+import {getStructure} from "./api/api";
 
 export type MainType = {
     deleteable: boolean
@@ -96,8 +97,7 @@ function App() {
     };
 
     useEffect(() => {
-        axios
-            .get<AppStructureStateType>('http://192.168.0.211:81/api/stand')
+        getStructure()
             .then((resp) => {
                 setStructureState(resp.data);
                 setCurrentFolder(resp.data.all.items)
@@ -138,7 +138,7 @@ function App() {
                 {currentFolder?.map((el) =>
                     <div onClick={() => goTo(el)}
                          className='block'
-                         key={el.id}>{el.name}
+                         key={el.id}>{el.name.replace(/\.[^.]+$/, "")}
                     </div>)}
             </div>
             {
