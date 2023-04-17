@@ -1,13 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import './App.css';
-import axios from 'axios';
 // @ts-ignore
 import video from './Assets/video.mp4';
 import Sidebar from "./components/sidebar/Sidebar";
 import {Box, Button, IconButton, Modal, Typography} from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
 import {useIdleTimer} from "react-idle-timer";
-import {getStructure} from "./api/api";
+import {api} from "./api/api";
 
 export type MainType = {
     deleteable: boolean
@@ -97,12 +96,16 @@ function App() {
     };
 
     useEffect(() => {
-        getStructure()
+        api.getStructure()
             .then((resp) => {
                 setStructureState(resp.data);
                 setCurrentFolder(resp.data.all.items)
                 setCurrentPath([resp.data.all])
-            });
+            })
+            .catch((err) => {
+                console.log(new Error(err))
+            })
+        ;
     }, []);
 
 

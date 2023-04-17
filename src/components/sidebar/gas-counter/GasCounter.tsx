@@ -2,8 +2,7 @@ import React, {useEffect, useState} from 'react';
 import style from "../Sidebar.module.css";
 
 import {GasCounterType} from "../Sidebar";
-import axios from "axios";
-import {getGasCounter} from "../../../api/api";
+import {api} from "../../../api/api";
 
 const GasCounter = () => {
 
@@ -13,10 +12,13 @@ const GasCounter = () => {
 
 
     useEffect(() => {
-        getGasCounter()
+        api.getGasCounter()
             .then((resp) => {
                 setGasCounter(resp.data)
                 setDateStart(resp.data.to_date)
+            })
+            .catch((err) => {
+                console.log(new Error(err))
             })
     }, [])
 
