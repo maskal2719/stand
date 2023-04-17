@@ -3,7 +3,7 @@ import './App.css';
 // @ts-ignore
 import video from './Assets/video.mp4';
 import Sidebar from "./components/sidebar/Sidebar";
-import {Box, Button, IconButton, Modal, Typography} from "@mui/material";
+import {Box, Button, CircularProgress, IconButton, Modal} from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
 import {useIdleTimer} from "react-idle-timer";
 import {api} from "./api/api";
@@ -46,6 +46,8 @@ function App() {
     const [currentFolder, setCurrentFolder] = useState<MainType[]>([]);
     const [currentPath, setCurrentPath] = useState<MainType[]>([]);
     const [uuidDoc, setUuidDoc] = useState('')
+    const [error, setError] = useState(null) // сделать обработку ошибок при запросе
+    const [status, setStatus] = useState(false) // сделать крутилку при загрузке данных
     //
     // //Для отслеживания бездействия поьзователя ---------------------------------------
     // const [event, setEvent] = useState<string>('Event')
@@ -96,6 +98,7 @@ function App() {
     };
 
     useEffect(() => {
+        setStatus(true)
         api.getStructure()
             .then((resp) => {
                 setStructureState(resp.data);
@@ -104,6 +107,9 @@ function App() {
             })
             .catch((err) => {
                 console.log(new Error(err))
+            })
+            .finally(() => {
+                setStatus(false)
             })
         ;
     }, []);
@@ -138,6 +144,7 @@ function App() {
                 {currentPath.length > 1 &&
                     <Button style={{position: 'absolute', left: '90px', top: '520px'}} onClick={goBack}
                             variant="contained" size='large'>Назад</Button>}
+                {status && <CircularProgress />}
                 {currentFolder?.map((el) =>
                     <div onClick={() => goTo(el)}
                          className='block'
