@@ -46,9 +46,10 @@ export type AppStructureStateType = {
 
 function App() {
 
-    const [appStructureState, setStructureState] = useState<AppStructureStateType | null>(null);
-    const [currentFolder, setCurrentFolder] = useState<MainType[]>([]);
-    const [currentPath, setCurrentPath] = useState<MainType[]>([]);
+    const [appStructureState, setStructureState] = useState<AppStructureStateType | null>(null)
+    const [currentFolder, setCurrentFolder] = useState<MainType[]>([])
+    const [currentPath, setCurrentPath] = useState<MainType[]>([])
+    const [defaultPath, setDefaultPath] = useState<MainType[]>([])// хз зачем че и куда
     const [uuidDoc, setUuidDoc] = useState('')
     const [videoSrc, setVideoSrc] = useState('')
     const [error, setError] = useState(null) // сделать обработку ошибок при запросе
@@ -124,6 +125,7 @@ function App() {
                 setStructureState(resp.data);
                 setCurrentFolder([...resp.data.region.items, ...resp.data.all.items])
                 setCurrentPath([{...resp.data.all, items: [...resp.data.region.items, ...resp.data.all.items]}])
+                setDefaultPath([{...resp.data.all, items: [...resp.data.region.items, ...resp.data.all.items]}])
             })
             .catch((err) => {
                 console.log(new Error(err))
@@ -164,7 +166,7 @@ function App() {
             <div className='content'>
                 {currentPath.length > 1 &&
                     <IconButton sx={btnStyle} onClick={goBack}>
-                        <ArrowBackIosIcon />
+                        <ArrowBackIosIcon/>
                     </IconButton>
                 }
                 {status && <CircularProgress/>}
