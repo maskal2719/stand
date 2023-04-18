@@ -99,3 +99,7 @@ iframe {
     height: 70vh;
     border: none;
 }
+
+video {
+    width: 85%;
+}

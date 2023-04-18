@@ -45,7 +45,7 @@ const GasCounter = () => {
     return (
         <div className={style.gasCounter}>
             <div>Реализовано газа за 2023 год</div>
-            <div>{`${Math.floor(gas)}`} м<sup>3</sup></div>
+            <div>{`${Math.floor(gas)}`.replace(/(\d)(?=(\d{3})+(\D|$))/g, '$1 ')} м<sup>3</sup></div>
         </div>
     );
 };

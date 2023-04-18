@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import logo from '../../../../stend/src/Assets/logo.svg'
 import style from '../sidebar/Sidebar.module.css'
 import moment from "moment";
@@ -11,12 +11,13 @@ export type GasCounterType = {
     to_date: Date
 }
 const Sidebar = () => {
-
-    // let time = moment().format('H:mm:ss')
     let date = moment().format('dddd Do MMMM YYYY')
-    const [time, setTime] = useState(moment().format('H:mm:ss'))
+    const [time, setTime] = useState(moment().format('H:mm'))
 
-    // setInterval(() => setTime(moment().format('H:mm:ss')), 1000)
+    useEffect(() => {
+        setInterval(() => setTime(moment().format('H:mm')), 1000)
+    },[])
+
     return (
         <div className={style.sidebar}>
             <div className={style.time}>
