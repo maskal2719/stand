@@ -3,11 +3,10 @@ import './App.css';
 // @ts-ignore
 import video from './Assets/video.mp4';
 import Sidebar from "./components/sidebar/Sidebar";
-import {Box, Button, CircularProgress, IconButton, Modal} from "@mui/material";
+import {CircularProgress, IconButton} from "@mui/material";
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
-import CloseIcon from '@mui/icons-material/Close';
-import {useIdleTimer} from "react-idle-timer";
 import {api} from "./api/api";
+import ModalWindow from "./components/modal/ModalWindow";
 
 
 export type MainType = {
@@ -96,19 +95,7 @@ function App() {
     }
     const openModal = () => setShowModal(true);
 
-    const modalStyle = {
-        position: 'absolute' as 'absolute',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-        width: '90%',
-        bgcolor: 'rgba(31, 112, 127, 0.3)',
-        backdropFilter: 'blur(3px)',
-        boxShadow: 24,
-        border: 'none',
-        p: 4,
-        textAlign: 'center'
-    };
+
     const btnStyle = {
         position: 'absolute',
         left: '90px',
@@ -177,23 +164,8 @@ function App() {
                     </div>)}
             </div>
             {
-                <>
-                    <Modal
-                        open={showModal}
-                        onClose={closeModal}
-                        aria-labelledby="modal-modal-title"
-                        aria-describedby="modal-modal-description"
-                    >
-                        <Box sx={modalStyle}>
-                            {showVideoPlayer ? <video src={scrLinkVideo} controls></video> :
-                                <iframe src={htmlFile} title="Pdf"></iframe>}
-                            <IconButton onClick={closeModal} style={{position: 'absolute', top: '0', right: '0'}}
-                                        color='error' size={'large'}>
-                                <CloseIcon fontSize={"large"}/>
-                            </IconButton>
-                        </Box>
-                    </Modal>
-                </>
+                <ModalWindow closeModal={closeModal} openModal={openModal} scrLinkVideo={scrLinkVideo}
+                             htmlFile={htmlFile} showVideoPlayer={showVideoPlayer} showModal={showModal}/>
             }
         </div>
     );
