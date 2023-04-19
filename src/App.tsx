@@ -47,6 +47,7 @@ function App() {
 
     const [appStructureState, setStructureState] = useState<AppStructureStateType | null>(null)
     const [currentFolder, setCurrentFolder] = useState<MainType[]>([])
+    const [defaultFolder, setDefaultFolder] = useState<MainType[]>([])
     const [currentPath, setCurrentPath] = useState<MainType[]>([])
     const [defaultPath, setDefaultPath] = useState<MainType[]>([])// хз зачем че и куда
     const [uuidDoc, setUuidDoc] = useState('')
@@ -83,10 +84,12 @@ function App() {
     //
     // console.log(elapsed)
     //Для отслеживания бездействия поьзователя ---------------------------------------
+    const [inactiveTime, setInactiveTime] = useState(0);
     const [showModal, setShowModal] = useState(false);
 
     let htmlFile = `http://localhost:3000/pdfReaderFlipbook/index.html?id=${uuidDoc}`
     let scrLinkVideo = `http://192.168.0.211/static/video/${videoSrc}`
+    const timeToHide = inactiveTime > 10
 
 
     const closeModal = () => {
@@ -111,6 +114,7 @@ function App() {
             .then((resp) => {
                 setStructureState(resp.data);
                 setCurrentFolder([...resp.data.region.items, ...resp.data.all.items])
+                setDefaultFolder([...resp.data.region.items, ...resp.data.all.items])
                 setCurrentPath([{...resp.data.all, items: [...resp.data.region.items, ...resp.data.all.items]}])
                 setDefaultPath([{...resp.data.all, items: [...resp.data.region.items, ...resp.data.all.items]}])
             })
@@ -122,6 +126,20 @@ function App() {
             })
         ;
     }, []);
+    useEffect(() => {
+        const timeoutId = setTimeout(() => {
+            setInactiveTime(inactiveTime + 1);
+        }, 1000);
+        window.addEventListener('mousemove', () => setInactiveTime(0))
+        window.addEventListener('click', () => setInactiveTime(0))
+
+        if (inactiveTime > 10) {
+            setCurrentPath([...defaultPath])
+            setCurrentFolder([...defaultFolder])
+            closeModal()
+        }
+        return () => clearTimeout(timeoutId);
+    }, [inactiveTime])
 
 
     const goTo = (el: any) => {
@@ -146,27 +164,28 @@ function App() {
 
     return (
         <div className={'container'}>
-            <Sidebar/>
-            <div className="video-container">
-                <video autoPlay muted loop src={video}></video>
-            </div>
-            <div className='content'>
-                {currentPath.length > 1 &&
-                    <IconButton sx={btnStyle} onClick={goBack}>
-                        <ArrowBackIosIcon/>
-                    </IconButton>
-                }
-                {status && <CircularProgress/>}
-                {currentFolder?.map((el) =>
-                    <div onClick={() => goTo(el)}
-                         className='block'
-                         key={el.id}>{el.name.replace(/\.[^.]+$/, "").slice(0, 90)}
-                    </div>)}
-            </div>
-            {
+            <>
+                <Sidebar timeToHide={timeToHide}/>
+                <div className="video-container">
+                    <video autoPlay muted loop src={video}></video>
+                </div>
+                <div className={timeToHide ? 'content inactive' : 'content'}>
+                    {currentPath.length > 1 &&
+                        <IconButton sx={btnStyle} onClick={goBack}>
+                            <ArrowBackIosIcon/>
+                        </IconButton>
+                    }
+                    {status && <CircularProgress/>}
+                    {currentFolder?.map((el) =>
+                        <div onClick={() => goTo(el)}
+                             className='block'
+                             key={el.id}>{el.name.replace(/\.[^.]+$/, "").slice(0, 90)}
+                        </div>)}
+                </div>
+
                 <ModalWindow closeModal={closeModal} openModal={openModal} scrLinkVideo={scrLinkVideo}
                              htmlFile={htmlFile} showVideoPlayer={showVideoPlayer} showModal={showModal}/>
-            }
+            </>
         </div>
     );
 }

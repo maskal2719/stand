@@ -35,3 +35,8 @@
     color: white;
     font-weight: 500;
 }
+
+.hide {
+    opacity: 0;
+    transition: all 2s;
+}

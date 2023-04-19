@@ -10,7 +10,10 @@ export type GasCounterType = {
     id: number
     to_date: Date
 }
-const Sidebar = () => {
+export type SidebarPropsType = {
+    timeToHide?: boolean
+}
+const Sidebar:React.FC<SidebarPropsType> = ({timeToHide}) => {
     let date = moment().format('dddd Do MMMM YYYY')
     const [time, setTime] = useState(moment().format('H:mm'))
 
@@ -19,7 +22,7 @@ const Sidebar = () => {
     },[])
 
     return (
-        <div className={style.sidebar}>
+        <div className={timeToHide ? `${style.sidebar} + ${style.hide}` : `${style.sidebar}`}>
             <div className={style.time}>
                 <div>
                     {time}
