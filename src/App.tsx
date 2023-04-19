@@ -89,7 +89,7 @@ function App() {
 
     let htmlFile = `http://localhost:3000/pdfReaderFlipbook/index.html?id=${uuidDoc}`
     let scrLinkVideo = `http://192.168.0.211/static/video/${videoSrc}`
-    const timeToHide = inactiveTime > 10
+    const timeToHide = inactiveTime > 30
 
 
     const closeModal = () => {
