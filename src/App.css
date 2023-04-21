@@ -19,33 +19,6 @@
     transition: all 2s;
 }
 
-.block {
-    width: 250px;
-    height: 170px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 10px;
-    margin: 20px;
-    background-color: white;
-    color: #00549f;
-    font-weight: 600;
-    border-radius: 10px;
-    opacity: 0.8;
-    cursor: pointer;
-    transition: all 0.3s;
-    text-align: center;
-    font-size: 1.25rem;
-    background-image: url("/src/Assets/block.png");
-    background-repeat: no-repeat;
-    background-size: cover;
-}
-
-.block:hover {
-    opacity: 2;
-}
-
-
 .showcase {
     height: 100vh;
     display: flex;

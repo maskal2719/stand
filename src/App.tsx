@@ -7,6 +7,7 @@ import {CircularProgress, IconButton} from "@mui/material";
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import {api} from "./api/api";
 import ModalWindow from "./components/modal/ModalWindow";
+import Block from "./components/block/Block";
 
 
 export type MainType = {
@@ -50,11 +51,11 @@ function App() {
     const [defaultFolder, setDefaultFolder] = useState<MainType[]>([])
     const [currentPath, setCurrentPath] = useState<MainType[]>([])
     const [defaultPath, setDefaultPath] = useState<MainType[]>([])// хз зачем че и куда
-    const [uuidDoc, setUuidDoc] = useState('')
-    const [videoSrc, setVideoSrc] = useState('')
+    const [uuidDoc, setUuidDoc] = useState<string>('')
+    const [videoSrc, setVideoSrc] = useState<string>('')
     const [error, setError] = useState(null) // сделать обработку ошибок при запросе
-    const [status, setStatus] = useState(false) // сделать крутилку при загрузке данных
-    const [showVideoPlayer, setShowVideoPlayer] = useState(false)
+    const [status, setStatus] = useState<boolean>(false) // сделать крутилку при загрузке данных
+    const [showVideoPlayer, setShowVideoPlayer] = useState<boolean>(false)
     //
     //Для отслеживания бездействия поьзователя ---------------------------------------
     // const [event, setEvent] = useState<string>('Event')
@@ -176,11 +177,11 @@ function App() {
                         </IconButton>
                     }
                     {status && <CircularProgress/>}
-                    {currentFolder?.map((el) =>
-                        <div onClick={() => goTo(el)}
-                             className='block'
-                             key={el.id}>{el.name.replace(/\.[^.]+$/, "").slice(0, 90)}
-                        </div>)}
+                    {
+                        currentFolder?.map((el) =>
+                            <Block block={el} goTo={goTo} />
+                        )
+                    }
                 </div>
 
                 <ModalWindow closeModal={closeModal} openModal={openModal} scrLinkVideo={scrLinkVideo}
