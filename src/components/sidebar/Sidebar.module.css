@@ -9,7 +9,7 @@
             rgba(31, 48, 148, 1) 6%,
             rgba(34, 193, 195, 1) 100%
     );
-    opacity: 0.9;
+    opacity: 0.8;
     transition: all 2s;
     display: flex;
     align-items: center;

@@ -82,3 +82,6 @@ video {
     opacity: 0;
     transition: all 2s;
 }
+.iconBtn:hover{
+    background-color: aliceblue !important;
+}

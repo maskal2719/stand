@@ -43,7 +43,7 @@ const ModalWindow: React.FC<ModalWindowPropsType> = ({
                 aria-describedby="modal-modal-description"
             >
                 <Box sx={modalStyle}>
-                    {showVideoPlayer ? <video src={scrLinkVideo} controls autoPlay></video> :
+                    {showVideoPlayer ? <video src={scrLinkVideo} controls autoPlay muted={true}></video> :
                         <iframe src={htmlFile} title="Pdf"></iframe>}
                     <IconButton onClick={closeModal} style={{position: 'absolute', top: '0', right: '0'}}
                                 color='error' size={'large'}>

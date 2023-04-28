@@ -87,10 +87,11 @@ function App() {
     //Для отслеживания бездействия поьзователя ---------------------------------------
     const [inactiveTime, setInactiveTime] = useState(0);
     const [showModal, setShowModal] = useState(false);
+    const currentUrl = window.location.href
 
-    let htmlFile = `http://localhost:3000/pdfReaderFlipbook/index.html?id=${uuidDoc}`
-    let scrLinkVideo = `http://192.168.0.211/static/video/${videoSrc}`
-    const timeToHide = inactiveTime > 30
+    let htmlFile = `${currentUrl}pdfReaderFlipbook/index.html?id=${uuidDoc}`
+    let scrLinkVideo = `http://192.168.0.5:4000/static/video/${videoSrc}`
+    const timeToHide = inactiveTime > 180
 
 
     const closeModal = () => {
@@ -134,7 +135,7 @@ function App() {
         window.addEventListener('mousemove', () => setInactiveTime(0))
         window.addEventListener('click', () => setInactiveTime(0))
 
-        if (inactiveTime > 10) {
+        if (timeToHide) {
             setCurrentPath([...defaultPath])
             setCurrentFolder([...defaultFolder])
             closeModal()
@@ -172,14 +173,14 @@ function App() {
                 </div>
                 <div className={timeToHide ? 'content inactive' : 'content'}>
                     {currentPath.length > 1 &&
-                        <IconButton sx={btnStyle} onClick={goBack}>
+                        <IconButton sx={btnStyle} className={'iconBtn'} onClick={goBack}>
                             <ArrowBackIosIcon/>
                         </IconButton>
                     }
                     {status && <CircularProgress/>}
                     {
                         currentFolder?.map((el) =>
-                            <Block block={el} goTo={goTo} />
+                            <Block key={el.id} block={el} goTo={goTo} />
                         )
                     }
                 </div>
