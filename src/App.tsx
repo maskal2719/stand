@@ -91,7 +91,7 @@ function App() {
 
     let htmlFile = `${currentUrl}pdfReaderFlipbook/index.html?id=${uuidDoc}`
     let scrLinkVideo = `http://192.168.0.5:4000/static/video/${videoSrc}`
-    const timeToHide = inactiveTime > 10
+    const timeToHide = inactiveTime > 180
 
     const textErr = 'Ошибка! IP-адрес не найдет! Обратитесь к программистам!'
 
