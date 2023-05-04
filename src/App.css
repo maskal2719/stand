@@ -85,3 +85,9 @@ video {
 .iconBtn:hover{
     background-color: aliceblue !important;
 }
+.error {
+    text-align: center;
+    color: red;
+    font-size: 40px;
+    font-weight: bold;
+}

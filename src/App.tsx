@@ -53,7 +53,7 @@ function App() {
     const [defaultPath, setDefaultPath] = useState<MainType[]>([])// хз зачем че и куда
     const [uuidDoc, setUuidDoc] = useState<string>('')
     const [videoSrc, setVideoSrc] = useState<string>('')
-    const [error, setError] = useState(null) // сделать обработку ошибок при запросе
+    const [error, setError] = useState<string | null>('') // сделать обработку ошибок при запросе
     const [status, setStatus] = useState<boolean>(false) // сделать крутилку при загрузке данных
     const [showVideoPlayer, setShowVideoPlayer] = useState<boolean>(false)
     //
@@ -91,7 +91,9 @@ function App() {
 
     let htmlFile = `${currentUrl}pdfReaderFlipbook/index.html?id=${uuidDoc}`
     let scrLinkVideo = `http://192.168.0.5:4000/static/video/${videoSrc}`
-    const timeToHide = inactiveTime > 180
+    const timeToHide = inactiveTime > 10
+
+    const textErr = 'Ошибка! IP-адрес не найдет! Обратитесь к программистам!'
 
 
     const closeModal = () => {
@@ -99,7 +101,6 @@ function App() {
         setShowVideoPlayer(false)
     }
     const openModal = () => setShowModal(true);
-
 
     const btnStyle = {
         position: 'absolute',
@@ -119,14 +120,16 @@ function App() {
                 setDefaultFolder([...resp.data.region.items, ...resp.data.all.items])
                 setCurrentPath([{...resp.data.all, items: [...resp.data.region.items, ...resp.data.all.items]}])
                 setDefaultPath([{...resp.data.all, items: [...resp.data.region.items, ...resp.data.all.items]}])
+                setStatus(true)
+                setError(null)
             })
             .catch((err) => {
                 console.log(new Error(err))
+                setError(textErr)
             })
             .finally(() => {
                 setStatus(false)
             })
-        ;
     }, []);
     useEffect(() => {
         const timeoutId = setTimeout(() => {
@@ -139,9 +142,43 @@ function App() {
             setCurrentPath([...defaultPath])
             setCurrentFolder([...defaultFolder])
             closeModal()
+            api.getStructure()
+                .then((resp) => {
+                    setStructureState(resp.data);
+                    setStatus(true)
+                    setError(null)
+                })
+                .catch((err) => {
+                    console.log(new Error(err))
+                    setError(textErr)
+                })
+                .finally(() => {
+                    setStatus(false)
+                })
         }
         return () => clearTimeout(timeoutId);
     }, [inactiveTime])
+
+
+
+    // useEffect(() => {
+    //
+    //     if (timeToHide) {
+    //         api.getStructure()
+    //             .then((resp) => {
+    //                 setStructureState(resp.data);
+    //                 setStatus(true)
+    //                 setError(null)
+    //             })
+    //             .catch((err) => {
+    //                 console.log(new Error(err))
+    //                 setError(textErr)
+    //             })
+    //             .finally(() => {
+    //                 setStatus(false)
+    //             })
+    //     }
+    // }, [])
 
 
     const goTo = (el: any) => {
@@ -170,6 +207,7 @@ function App() {
                 <Sidebar timeToHide={timeToHide}/>
                 <div className="video-container">
                     <video autoPlay muted loop src={video}></video>
+
                 </div>
                 <div className={timeToHide ? 'content inactive' : 'content'}>
                     {currentPath.length > 1 &&
@@ -179,9 +217,13 @@ function App() {
                     }
                     {status && <CircularProgress/>}
                     {
-                        currentFolder?.map((el) =>
-                            <Block key={el.id} block={el} goTo={goTo} />
-                        )
+                        !error ?
+                            currentFolder?.map((el) =>
+                                <Block key={el.id} block={el} goTo={goTo}/>
+                            )
+                            : <div className={'error'}>
+                                {error}
+                            </div>
                     }
                 </div>
 
