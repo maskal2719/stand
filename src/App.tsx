@@ -142,19 +142,6 @@ function App() {
             setCurrentPath([...defaultPath])
             setCurrentFolder([...defaultFolder])
             closeModal()
-            api.getStructure()
-                .then((resp) => {
-                    setStructureState(resp.data);
-                    setStatus(true)
-                    setError(null)
-                })
-                .catch((err) => {
-                    console.log(new Error(err))
-                    setError(textErr)
-                })
-                .finally(() => {
-                    setStatus(false)
-                })
         }
         return () => clearTimeout(timeoutId);
     }, [inactiveTime])
