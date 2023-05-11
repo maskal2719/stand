@@ -8,8 +8,13 @@ export type BlockPropsType = {
 }
 
 const Block: React.FC<BlockPropsType> = React.memo(({block, goTo}) => {
+
+    const goToFolder = () => {
+        goTo(block)
+    }
+
     return (
-        <div onClick={() => goTo(block)}
+        <div onClick={goToFolder}
              className={style.block}
              key={block.id}>{block.name.replace(/\.[^.]+$/, "").slice(0, 90)}
         </div>
