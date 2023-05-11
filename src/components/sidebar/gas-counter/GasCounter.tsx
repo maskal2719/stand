@@ -1,15 +1,15 @@
 import React, {useEffect, useState} from 'react';
 import style from "../Sidebar.module.css";
 
-import {GasCounterType} from "../Sidebar";
-import {api} from "../../../api/api";
+
+import {api, GasCounterType} from "../../../api/api";
 import {CircularProgress} from "@mui/material";
 
 const GasCounter = () => {
 
     const [gasCounter, setGasCounter] = useState<GasCounterType | null>(null)
     const [gas, setGas] = useState(0)
-    const [dateStart, setDateStart] = useState(new Date())
+    const [dateStart, setDateStart] = useState('')
 
 
     useEffect(() => {
@@ -53,4 +53,4 @@ const GasCounter = () => {
     );
 };
 
-export default GasCounter;
+export default React.memo(GasCounter);
