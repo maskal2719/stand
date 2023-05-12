@@ -3,7 +3,8 @@ import './App.css';
 // @ts-ignore
 import video from './Assets/video.mp4';
 import Sidebar from "./components/sidebar/Sidebar";
-import {CircularProgress, IconButton} from "@mui/material";
+import IconButton from "@mui/material/IconButton";
+import CircularProgress from "@mui/material/CircularProgress";
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import {RootType} from "./api/api";
 import ModalWindow from "./components/modal/ModalWindow";
@@ -12,7 +13,8 @@ import {useAppDispatch, useAppSelector} from "./store/store";
 import {fetchCurrentFolderTC, goBackToFolderAC, goToFolderAC} from "./store/folders-reducer";
 import {fetchCurrentPathTC, goBackPathAC, setPathAC} from "./store/path-reducer";
 import {useIdleTimer} from "react-idle-timer";
-import {RequestStatusType} from "./store/app-reducer";
+import {ErrorType, RequestStatusType} from "./store/app-reducer";
+import imgHand from './Assets/click.png'
 
 function App() {
 
@@ -20,6 +22,7 @@ function App() {
     const folders = useAppSelector<RootType[]>(state => state.folders)
     const path = useAppSelector<RootType[]>(state => state.path)
     const status = useAppSelector<RequestStatusType>((state) => state.app.status)
+    const error = useAppSelector<ErrorType>((state) => state.app.error)
     const dispatch = useAppDispatch()
 
     const btnStyle = {
@@ -45,7 +48,7 @@ function App() {
     //Для отслеживания бездействия поьзователя ---------------------------------------
     const [event, setEvent] = useState<string>('Event')
     const [elapsed, setElapsed] = useState<number>(0)//время бездействия пользователя
-    const timeToHide = elapsed > 180 // время бездействия, после которого сбрасыется путь, идет повторный запрос на сервер
+    const timeToHide = elapsed > 5 // время бездействия, после которого сбрасыется путь, идет повторный запрос на сервер
 
     const onAction = (event?: Event) => {
         setEvent(event?.type ?? 'Event')
@@ -58,7 +61,7 @@ function App() {
         }
     }
 
-    const { getElapsedTime, reset } = useIdleTimer({
+    const {getElapsedTime, reset} = useIdleTimer({
         onAction,
         timeout: 10_000,
         throttle: 500
@@ -82,10 +85,10 @@ function App() {
     }, [dispatch]);
 
     useEffect(() => {
-        if(timeToHide) {
+        if (timeToHide) {
             closeModal()
         }
-    },[timeToHide])
+    }, [timeToHide])
 
     const closeModal = () => {
         setShowModal(false)
@@ -119,25 +122,35 @@ function App() {
                 <div className="video-container">
                     <video autoPlay muted loop src={video}></video>
                 </div>
-                <div className={timeToHide ? 'content inactive' : 'content'}>
-                    {
-                        status === "loading" && <CircularProgress />
-                    }
-                    {path.length > 1 &&
-                        <IconButton sx={btnStyle} className={'iconBtn'} onClick={goBack}>
-                            <ArrowBackIosIcon/>
-                        </IconButton>
-                    }
-                    {
-                        folders?.map((el) =>
-                            <Block key={el.id} block={el} goTo={goTo}/>
-                        )
-                    }
-                </div>
-
+                {
+                    error === null
+                        ?
+                        <div className={timeToHide ? 'content inactive' : 'content'}>
+                            {
+                                status === "loading" && <CircularProgress/>
+                            }
+                            {path.length > 1 &&
+                                <IconButton sx={btnStyle} className={'iconBtn'} onClick={goBack}>
+                                    <ArrowBackIosIcon/>
+                                </IconButton>
+                            }
+                            {
+                                folders?.map((el) =>
+                                    <Block key={el.id} block={el} goTo={goTo}/>
+                                )
+                            }
+                        </div>
+                        :
+                        <div className={'error'}>
+                            {error}
+                        </div>
+                }
                 <ModalWindow closeModal={closeModal} openModal={openModal} scrLinkVideo={scrLinkVideo}
                              htmlFile={htmlFile} showVideoPlayer={showVideoPlayer} showModal={showModal}/>
             </>
+            <div className={timeToHide ? 'activeHandClick' : 'inactiveHandClick'}>
+                <img src={imgHand} alt=""/>
+            </div>
         </div>
     );
 }

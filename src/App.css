@@ -16,7 +16,7 @@
     z-index: 2;
     padding: 200px;
     opacity: 1;
-    transition: all 2s;
+    transition: all 1s;
 }
 
 .showcase {
@@ -80,14 +80,35 @@ video {
 
 .inactive {
     opacity: 0;
+    transition: all 1s;
+}
+
+.inactiveHandClick {
+    opacity: 0;
+    transition: all 1s;
+    position: absolute;
+    left: 39%;
+    bottom: 27%;
+}
+
+.activeHandClick {
+    position: absolute;
+    left: 39%;
+    bottom: 27%;
+    opacity: 1;
     transition: all 2s;
 }
-.iconBtn:hover{
+
+.iconBtn:hover {
     background-color: aliceblue !important;
 }
+
 .error {
     text-align: center;
     color: red;
     font-size: 40px;
     font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }

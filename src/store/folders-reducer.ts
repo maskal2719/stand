@@ -1,6 +1,6 @@
 import {api, RootType, SctructureType} from "../api/api";
 import {Dispatch} from "redux";
-import {setUpStatusAC, setUpStatusACType} from "./app-reducer";
+import {setErrorAC, setErrorACType, setUpStatusAC, setUpStatusACType} from "./app-reducer";
 
 const initialState: RootType[] = []
 
@@ -9,6 +9,7 @@ export type ActionsType =
     | ReturnType<typeof goToFolderAC>
     | ReturnType<typeof goBackToFolderAC>
     | setUpStatusACType
+    | setErrorACType
 
 
 export const FoldersReducer = (state: RootType[] = initialState, action: ActionsType) => {
@@ -37,6 +38,11 @@ export const fetchCurrentFolderTC = () => {
             .then((res) => {
                 dispatch(setCurrentFolderAC(res.data))
                 dispatch(setUpStatusAC('succeeded'))
+                dispatch(setErrorAC(null))
+            })
+            .catch((err) => {
+                dispatch(setUpStatusAC('failed'))
+                dispatch(setErrorAC(err.message))
             })
     }
 }

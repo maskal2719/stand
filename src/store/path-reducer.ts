@@ -1,5 +1,6 @@
 import {api, RootType, SctructureType} from "../api/api";
 import {Dispatch} from "redux";
+import {setErrorAC, setErrorACType, setUpStatusAC, setUpStatusACType} from "./app-reducer";
 
 const initialState: RootType[] = []
 
@@ -7,6 +8,8 @@ export type ActionsType =
     ReturnType<typeof setCurrentPathAC>
     | ReturnType<typeof setPathAC>
     | ReturnType<typeof goBackPathAC>
+    | setUpStatusACType
+    | setErrorACType
 
 
 export const PathReducer = (state: RootType[] = initialState, action: ActionsType) => {
@@ -31,9 +34,16 @@ export const goBackPathAC = (path: Array<RootType>) => ({type: 'GO-BACK-PATH', p
 
 export const fetchCurrentPathTC = () => {
     return (dispatch: Dispatch<ActionsType>) => {
+        dispatch(setUpStatusAC('succeeded'))
         api.getStructure()
             .then((res) => {
                 dispatch(setCurrentPathAC(res.data))
+                dispatch(setUpStatusAC('succeeded'))
+                dispatch(setErrorAC(null))
+            })
+            .catch((err) => {
+                dispatch(setUpStatusAC('failed'))
+                dispatch(setErrorAC(err.message))
             })
     }
 }
