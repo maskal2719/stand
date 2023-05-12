@@ -3,11 +3,13 @@ import {FoldersReducer} from "./folders-reducer";
 import thunkMiddleware, {ThunkDispatch} from "redux-thunk";
 import {TypedUseSelectorHook, useDispatch, useSelector} from "react-redux";
 import {PathReducer} from "./path-reducer";
+import {appReducer} from "./app-reducer";
 
 
 const rootReducer = combineReducers({
     folders: FoldersReducer,
-    path: PathReducer
+    path: PathReducer,
+    app: appReducer
 })
 
 export const store = legacy_createStore(rootReducer, applyMiddleware(thunkMiddleware))

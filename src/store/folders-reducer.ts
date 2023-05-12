@@ -1,5 +1,6 @@
 import {api, RootType, SctructureType} from "../api/api";
 import {Dispatch} from "redux";
+import {setUpStatusAC, setUpStatusACType} from "./app-reducer";
 
 const initialState: RootType[] = []
 
@@ -7,6 +8,7 @@ export type ActionsType =
     ReturnType<typeof setCurrentFolderAC>
     | ReturnType<typeof goToFolderAC>
     | ReturnType<typeof goBackToFolderAC>
+    | setUpStatusACType
 
 
 export const FoldersReducer = (state: RootType[] = initialState, action: ActionsType) => {
@@ -30,9 +32,11 @@ export const goToFolderAC = (el: RootType) => ({type: 'GO-TO-FOLDER', el} as con
 export const goBackToFolderAC = (path: Array<RootType>) => ({type: 'GO-BACK-TO-FOLDER', path} as const)
 export const fetchCurrentFolderTC = () => {
     return (dispatch: Dispatch<ActionsType>) => {
+        dispatch(setUpStatusAC('loading'))
         api.getStructure()
             .then((res) => {
                 dispatch(setCurrentFolderAC(res.data))
+                dispatch(setUpStatusAC('succeeded'))
             })
     }
 }

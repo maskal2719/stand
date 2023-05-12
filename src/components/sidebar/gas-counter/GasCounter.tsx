@@ -41,7 +41,7 @@ const GasCounter = () => {
             setGas(i)
         }, 1000)
 
-    }, [gas]);
+    }, [dateStart, gas, gasCounter?.count]);
 
     return (
         <div className={style.gasCounter}>

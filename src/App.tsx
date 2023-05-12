@@ -3,7 +3,7 @@ import './App.css';
 // @ts-ignore
 import video from './Assets/video.mp4';
 import Sidebar from "./components/sidebar/Sidebar";
-import {IconButton} from "@mui/material";
+import {CircularProgress, IconButton} from "@mui/material";
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import {RootType} from "./api/api";
 import ModalWindow from "./components/modal/ModalWindow";
@@ -12,24 +12,15 @@ import {useAppDispatch, useAppSelector} from "./store/store";
 import {fetchCurrentFolderTC, goBackToFolderAC, goToFolderAC} from "./store/folders-reducer";
 import {fetchCurrentPathTC, goBackPathAC, setPathAC} from "./store/path-reducer";
 import {useIdleTimer} from "react-idle-timer";
+import {RequestStatusType} from "./store/app-reducer";
 
 function App() {
 
+    //Получаем стейт из стора
     const folders = useAppSelector<RootType[]>(state => state.folders)
     const path = useAppSelector<RootType[]>(state => state.path)
+    const status = useAppSelector<RequestStatusType>((state) => state.app.status)
     const dispatch = useAppDispatch()
-
-    const [uuidDoc, setUuidDoc] = useState<string>('')
-    const [videoSrc, setVideoSrc] = useState<string>('')
-    const [showVideoPlayer, setShowVideoPlayer] = useState<boolean>(false)
-
-
-    const [inactiveTime, setInactiveTime] = useState(0);
-    const [showModal, setShowModal] = useState(false);
-    const currentUrl = window.location.href
-
-    let htmlFile = `${currentUrl}pdfReaderFlipbook/index.html?id=${uuidDoc}`
-    let scrLinkVideo = `http://192.168.0.5:4000/static/video/${videoSrc}`
 
     const btnStyle = {
         position: 'absolute',
@@ -38,17 +29,33 @@ function App() {
         backgroundColor: 'aliceblue',
         width: '100px',
         height: '100px'
-    }
+    }//Стили для кнопки назад
 
-    //
+    const [uuidDoc, setUuidDoc] = useState<string>('')//id документа для открытия
+    const [videoSrc, setVideoSrc] = useState<string>('')// src путь для открытия видео
+
+    const [showVideoPlayer, setShowVideoPlayer] = useState<boolean>(false)//Стейт для модалки(видео)
+    const [showModal, setShowModal] = useState(false)//Стейт для модалки(пдф)
+    //Получения линок для открытия видео и пдф
+    const currentUrl = window.location.href
+    let htmlFile = `${currentUrl}pdfReaderFlipbook/index.html?id=${uuidDoc}`
+    let scrLinkVideo = `http://192.168.0.5:4000/static/video/${videoSrc}`
+    //Получения линок для открытия видео и пдф
+
     //Для отслеживания бездействия поьзователя ---------------------------------------
     const [event, setEvent] = useState<string>('Event')
-    const [elapsed, setElapsed] = useState<number>(0)
-    const timeToHide = elapsed > 5
+    const [elapsed, setElapsed] = useState<number>(0)//время бездействия пользователя
+    const timeToHide = elapsed > 180 // время бездействия, после которого сбрасыется путь, идет повторный запрос на сервер
 
     const onAction = (event?: Event) => {
         setEvent(event?.type ?? 'Event')
         reset()
+        if (event && timeToHide) {
+            const thunkFolder = fetchCurrentFolderTC()
+            const thunkPath = fetchCurrentPathTC()
+            dispatch(thunkFolder)
+            dispatch(thunkPath)
+        }
     }
 
     const { getElapsedTime, reset } = useIdleTimer({
@@ -67,15 +74,6 @@ function App() {
         }
     })
 
-    //Для отслеживания бездействия поьзователя ---------------------------------------
-
-    const closeModal = () => {
-        setShowModal(false)
-        setShowVideoPlayer(false)
-    }
-    const openModal = () => setShowModal(true);
-
-
     useEffect(() => {
         const thunkFolder = fetchCurrentFolderTC()
         const thunkPath = fetchCurrentPathTC()
@@ -83,7 +81,17 @@ function App() {
         dispatch(thunkPath)
     }, [dispatch]);
 
+    useEffect(() => {
+        if(timeToHide) {
+            closeModal()
+        }
+    },[timeToHide])
 
+    const closeModal = () => {
+        setShowModal(false)
+        setShowVideoPlayer(false)
+    }
+    const openModal = () => setShowModal(true);
     const goTo = (el: RootType) => {
         if (el.isDirectory) {
             dispatch(goToFolderAC(el))
@@ -110,9 +118,11 @@ function App() {
                 <Sidebar timeToHide={timeToHide}/>
                 <div className="video-container">
                     <video autoPlay muted loop src={video}></video>
-
                 </div>
                 <div className={timeToHide ? 'content inactive' : 'content'}>
+                    {
+                        status === "loading" && <CircularProgress />
+                    }
                     {path.length > 1 &&
                         <IconButton sx={btnStyle} className={'iconBtn'} onClick={goBack}>
                             <ArrowBackIosIcon/>
