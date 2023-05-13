@@ -39,4 +39,4 @@ const Sidebar:React.FC<SidebarPropsType> = ({timeToHide}) => {
     );
 };
 
-export default Sidebar;
+export default React.memo(Sidebar);

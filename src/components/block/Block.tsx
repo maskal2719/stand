@@ -20,4 +20,4 @@ const Block: React.FC<BlockPropsType> = React.memo(({block, goTo}) => {
         </div>
     );
 });
-export default Block;
+export default React.memo(Block);
