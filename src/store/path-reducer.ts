@@ -3,6 +3,7 @@ import {Dispatch} from "redux";
 import {setErrorAC, setErrorACType, setUpStatusAC, setUpStatusACType} from "./app-reducer";
 
 const initialState: RootType[] = []
+const errorMessage = 'Ошибка! Обратитесь к системному администратору!'
 
 export type ActionsType =
     ReturnType<typeof setCurrentPathAC>
@@ -43,7 +44,7 @@ export const fetchCurrentPathTC = () => {
             })
             .catch((err) => {
                 dispatch(setUpStatusAC('failed'))
-                dispatch(setErrorAC(err.message))
+                dispatch(setErrorAC(errorMessage))
             })
     }
 }

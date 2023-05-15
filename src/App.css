@@ -103,12 +103,12 @@ video {
     background-color: aliceblue !important;
 }
 
-.error {
+.errorActive {
     text-align: center;
     color: red;
     font-size: 40px;
     font-weight: bold;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    position: absolute;
+    left: 30%;
+    bottom: 50%;
 }

@@ -141,7 +141,7 @@ function App() {
                             }
                         </div>
                         :
-                        <div className={'error'}>
+                        <div className={'errorActive'}>
                             {error}
                         </div>
                 }

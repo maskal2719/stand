@@ -4,6 +4,8 @@ import {setErrorAC, setErrorACType, setUpStatusAC, setUpStatusACType} from "./ap
 
 const initialState: RootType[] = []
 
+const errorMessage = 'Ошибка! Обратитесь к системному администратору!'
+
 export type ActionsType =
     ReturnType<typeof setCurrentFolderAC>
     | ReturnType<typeof goToFolderAC>
@@ -42,7 +44,7 @@ export const fetchCurrentFolderTC = () => {
             })
             .catch((err) => {
                 dispatch(setUpStatusAC('failed'))
-                dispatch(setErrorAC(err.message))
+                dispatch(setErrorAC(errorMessage))
             })
     }
 }
