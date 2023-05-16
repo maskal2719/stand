@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const instance = axios.create({
-    baseURL: 'http://192.168.0.5:4000/api/stand/'
+    baseURL: 'http://192.168.0.5:100/stand/api/stand/'
 })
 
 export type SctructureType = {
