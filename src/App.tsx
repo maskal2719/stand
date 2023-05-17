@@ -14,7 +14,7 @@ import {fetchCurrentFolderTC, goBackToFolderAC, goToFolderAC} from "./store/fold
 import {fetchCurrentPathTC, goBackPathAC, setPathAC} from "./store/path-reducer";
 import {useIdleTimer} from "react-idle-timer";
 import {ErrorType, RequestStatusType} from "./store/app-reducer";
-import imgHand from './Assets/click.png'
+import imgHand from './Assets/click.gif'
 
 function App() {
 
@@ -48,7 +48,7 @@ function App() {
     //Для отслеживания бездействия поьзователя ---------------------------------------
     const [event, setEvent] = useState<string>('Event')
     const [elapsed, setElapsed] = useState<number>(0)//время бездействия пользователя
-    const timeToHide = elapsed > 180 // время бездействия, после которого сбрасыется путь, идет повторный запрос на сервер
+    const timeToHide = elapsed > 5 // время бездействия, после которого сбрасыется путь, идет повторный запрос на сервер
 
     const onAction = (event?: Event) => {
         setEvent(event?.type ?? 'Event')
@@ -139,9 +139,6 @@ function App() {
                                     <Block key={el.id} block={el} goTo={goTo}/>
                                 )
                             }
-                            <div className={timeToHide ? 'activeHandClick' : 'inactiveHandClick'}>
-                                <img src={imgHand} alt=""/>
-                            </div>
                         </div>
 
                         :
@@ -152,6 +149,9 @@ function App() {
                 <ModalWindow closeModal={closeModal} openModal={openModal} scrLinkVideo={scrLinkVideo}
                              htmlFile={htmlFile} showVideoPlayer={showVideoPlayer} showModal={showModal}/>
             </>
+            <div className={timeToHide ? 'activeHandClick' : 'inactiveHandClick'}>
+                <img src={imgHand} alt=""/>
+            </div>
         </div>
     );
 }
