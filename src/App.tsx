@@ -48,7 +48,7 @@ function App() {
     //Для отслеживания бездействия поьзователя ---------------------------------------
     const [event, setEvent] = useState<string>('Event')
     const [elapsed, setElapsed] = useState<number>(0)//время бездействия пользователя
-    const timeToHide = elapsed > 5 // время бездействия, после которого сбрасыется путь, идет повторный запрос на сервер
+    const timeToHide = elapsed > 180 // время бездействия, после которого сбрасыется путь, идет повторный запрос на сервер
 
     const onAction = (event?: Event) => {
         setEvent(event?.type ?? 'Event')
