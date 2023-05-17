@@ -139,7 +139,11 @@ function App() {
                                     <Block key={el.id} block={el} goTo={goTo}/>
                                 )
                             }
+                            <div className={timeToHide ? 'activeHandClick' : 'inactiveHandClick'}>
+                                <img src={imgHand} alt=""/>
+                            </div>
                         </div>
+
                         :
                         <div className={'errorActive'}>
                             {error}
@@ -148,9 +152,6 @@ function App() {
                 <ModalWindow closeModal={closeModal} openModal={openModal} scrLinkVideo={scrLinkVideo}
                              htmlFile={htmlFile} showVideoPlayer={showVideoPlayer} showModal={showModal}/>
             </>
-            <div className={timeToHide ? 'activeHandClick' : 'inactiveHandClick'}>
-                <img src={imgHand} alt=""/>
-            </div>
         </div>
     );
 }
