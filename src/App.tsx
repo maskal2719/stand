@@ -136,7 +136,7 @@ function App() {
                             }
                             {
                                 folders?.map((el) =>
-                                    <Block key={el.id} block={el} goTo={goTo}/>
+                                    <Block key={el.id} block={el} goTo={goTo} folders={folders}/>
                                 )
                             }
                         </div>

@@ -5,9 +5,10 @@ import {RootType} from "../../api/api";
 export type BlockPropsType = {
     block: RootType
     goTo: (block: RootType) => void
+    folders: RootType[]
 }
 
-const Block: React.FC<BlockPropsType> = React.memo(({block, goTo}) => {
+const Block: React.FC<BlockPropsType> = React.memo(({block, goTo,folders}) => {
 
     const goToFolder = () => {
         goTo(block)
@@ -15,8 +16,8 @@ const Block: React.FC<BlockPropsType> = React.memo(({block, goTo}) => {
 
     return (
         <div onClick={goToFolder}
-             className={style.block}
-             key={block.id}>{block.name.replace(/\.[^.]+$/, "").slice(0, 90)}
+             className={folders.length < 15 ? style.block : style.blockMin}
+             key={block.id}>{block.name.length > 90 ? block.name.replace(/\.[^.]+$/, "").slice(0,90) + '...' : block.name.replace(/\.[^.]+$/, "")}
         </div>
     );
 });
