@@ -10,6 +10,7 @@ export type ModalWindowPropsType = {
     htmlFile: string
     scrLinkVideo: string
     showVideoPlayer: boolean
+    docName: string
 }
 
 const ModalWindow: React.FC<ModalWindowPropsType> = ({
@@ -17,7 +18,8 @@ const ModalWindow: React.FC<ModalWindowPropsType> = ({
                                                          closeModal,
                                                          scrLinkVideo,
                                                          htmlFile,
-                                                         showVideoPlayer
+                                                         showVideoPlayer,
+                                                         docName
                                                      }) => {
 
     const modalStyle = {
@@ -43,6 +45,9 @@ const ModalWindow: React.FC<ModalWindowPropsType> = ({
                 aria-describedby="modal-modal-description"
             >
                 <Box sx={modalStyle}>
+                    <div className={'docName'}>
+                        {docName}
+                    </div>
                     {showVideoPlayer ? <video src={scrLinkVideo} controls autoPlay muted={true}></video> :
                         <iframe src={htmlFile} title="Pdf"></iframe>}
                     <IconButton onClick={closeModal} style={{position: 'absolute', top: '0', right: '0'}}

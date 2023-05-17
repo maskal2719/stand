@@ -36,6 +36,7 @@ function App() {
 
     const [uuidDoc, setUuidDoc] = useState<string>('')//id документа для открытия
     const [videoSrc, setVideoSrc] = useState<string>('')// src путь для открытия видео
+    const [docName, setDocName] = useState<string>('')
 
     const [showVideoPlayer, setShowVideoPlayer] = useState<boolean>(false)//Стейт для модалки(видео)
     const [showModal, setShowModal] = useState(false)//Стейт для модалки(пдф)
@@ -101,6 +102,7 @@ function App() {
             dispatch(setPathAC(el))
         } else if (el.document) {
             setUuidDoc(el.document.uuid)
+            setDocName(el.name.replace(/\.[^.]+$/, ""))
             openModal()
         } else if (el.isVideo) {
             setVideoSrc(el.name)
@@ -147,7 +149,9 @@ function App() {
                         </div>
                 }
                 <ModalWindow closeModal={closeModal} openModal={openModal} scrLinkVideo={scrLinkVideo}
-                             htmlFile={htmlFile} showVideoPlayer={showVideoPlayer} showModal={showModal}/>
+                             htmlFile={htmlFile} showVideoPlayer={showVideoPlayer} showModal={showModal}
+                             docName={docName}
+                />
             </>
             <div className={timeToHide ? 'activeHandClick' : 'inactiveHandClick'}>
                 <img src={imgHand} alt=""/>
