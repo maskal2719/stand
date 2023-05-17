@@ -1,9 +1,9 @@
 import {api, RootType, SctructureType} from "../api/api";
 import {Dispatch} from "redux";
 import {setErrorAC, setErrorACType, setUpStatusAC, setUpStatusACType} from "./app-reducer";
+import {errorMessage} from "./folders-reducer";
 
 const initialState: RootType[] = []
-const errorMessage = 'Ошибка! Обратитесь к системному администратору!'
 
 export type ActionsType =
     ReturnType<typeof setCurrentPathAC>
