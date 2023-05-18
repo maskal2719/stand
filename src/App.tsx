@@ -104,9 +104,11 @@ function App() {
             setUuidDoc(el.document.uuid)
             setDocName(el.name.replace(/\.[^.]+$/, ""))
             openModal()
+            console.log(currentUrl)
         } else if (el.isVideo) {
             setVideoSrc(el.name)
             setShowVideoPlayer(true)
+            setDocName('')
             openModal()
         }
     }

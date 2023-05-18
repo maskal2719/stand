@@ -2,7 +2,7 @@
   "name": "stend",
   "version": "0.1.0",
   "private": true,
-  "homepage" : "https://maskal2719.github.io/stand",
+  "homepage" : "http://maskal2719.github.io/stand",
   "dependencies": {
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",

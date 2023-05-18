@@ -1,20 +1,12 @@
-# Getting Started with Create React App
+# Stand App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
-## Available Scripts
-
-In the project directory, you can run:
-
-### `yarn start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-### `yarn test`
+## Main page
+![img.png](img.png)
+On the main page, we see the general structure and the counter, 
+which adds a certain amount of gas every second.
+The structure is made in the form of folders that you can go to.
+The folders contain pdf files and videos.
+## Main page
 
 Launches the test runner in the interactive watch mode.\
 See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
