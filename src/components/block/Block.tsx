@@ -14,10 +14,12 @@ const Block: React.FC<BlockPropsType> = React.memo(({block, goTo,folders}) => {
         goTo(block)
     }
 
+    const blockName = block.name.length > 90 ? block.name.replace(/\.[^.]+$/, "").slice(0,90) + '...' : block.name.replace(/\.[^.]+$/, "")
+
     return (
         <div onClick={goToFolder}
              className={folders.length < 15 ? style.block : style.blockMin}
-             key={block.id}>{block.name.length > 90 ? block.name.replace(/\.[^.]+$/, "").slice(0,90) + '...' : block.name.replace(/\.[^.]+$/, "")}
+             key={block.id}>{blockName}
         </div>
     );
 });
