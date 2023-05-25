@@ -19,6 +19,7 @@ export type RootType = {
     name: string
     updated_at: string
     document: Document
+    sort: number
 }
 export type Document = {
     format: string

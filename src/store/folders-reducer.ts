@@ -17,10 +17,10 @@ export type ActionsType =
 export const FoldersReducer = (state: RootType[] = initialState, action: ActionsType) => {
     switch (action.type) {
         case "SET-CURRENT-FOLDER": {
-            return [...action.structure.region.items, ...action.structure.all.items]
+            return [...action.structure.region.items, ...action.structure.all.items].sort((a,b) => a.sort - b.sort)
         }
         case "GO-TO-FOLDER": {
-            return [...action.el.items]
+            return [...action.el.items].sort((a,b) => a.sort - b.sort)
         }
         case "GO-BACK-TO-FOLDER": {
             return [...action.path[action.path.length - 2].items]

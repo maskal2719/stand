@@ -139,7 +139,7 @@ function App() {
                                 </IconButton>
                             }
                             {
-                                folders?.sort((a,b) => a.name > b.name ? 1 : -1).map((el) =>
+                                folders?.map((el) =>
                                     <Block key={el.id} block={el} goTo={goTo} folders={folders}/>
                                 )
                             }
