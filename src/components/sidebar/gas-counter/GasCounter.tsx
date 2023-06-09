@@ -8,6 +8,7 @@ import {CircularProgress} from "@mui/material";
 const GasCounter = () => {
 
     const [gasCounter, setGasCounter] = useState<GasCounterType | null>(null)
+    const [gasCounterPlan, setGasCounterPlan] = useState<string | null>(null)
     const [gas, setGas] = useState(0)
     const [dateStart, setDateStart] = useState('')
 
@@ -16,6 +17,7 @@ const GasCounter = () => {
         api.getGasCounter()
             .then((resp) => {
                 setGasCounter(resp.data)
+                setGasCounterPlan(resp.data.count_plan)
                 setDateStart(resp.data.to_date)
             })
             .catch((err) => {

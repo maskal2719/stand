@@ -29,6 +29,7 @@ export type Document = {
 }
 export type GasCounterType = {
     count: string
+    count_plan: string
     id: number
     to_date: string
 }
