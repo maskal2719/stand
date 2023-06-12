@@ -33,16 +33,15 @@ const GasCounter = () => {
         let currentGasValue = Math.round(interval * Number(gasInSeconds)) + (Number(gasCounter?.count))
 
         currentGasValue = Math.round(Number(parseFloat(String(currentGasValue)))) + Number(parseInt(gasInSeconds))
-        console.log(Math.round(Number(parseFloat(String(currentGasValue)))) )
         const timeOut = setTimeout(() => {
             setGas(currentGasValue)
-        }, 980)
+        }, 1000)
 
         return () => {
             clearTimeout(timeOut)
         }
 
-    }, [dateStart, gas, gasCounter?.count, gasCounter?.count_plan]);
+    }, [dateStart, gas, gasCounter?.count]);
     return (
         <div className={style.gasCounter}>
             <div>Реализовано газа за 2023 год</div>
