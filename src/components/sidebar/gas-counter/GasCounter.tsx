@@ -30,7 +30,6 @@ const GasCounter = () => {
         let interval = ((now.getTime() - startDate.getTime()) - (now.getTime() - startDate.getTime()) % 1000) / 1000;
 
         let gasInSeconds = ((Number(gasCounter?.count_plan) - Number(gasCounter?.count)) / 30 / 24 / 3600).toFixed(2)
-        console.log((Number(gasCounter?.count_plan) - Number(gasCounter?.count)))
         let currentGasValue = Math.round(interval * Number(gasInSeconds)) + (Number(gasCounter?.count))
 
         currentGasValue = Math.round(Number(parseFloat(String(currentGasValue)))) + Number(parseInt(gasInSeconds))
