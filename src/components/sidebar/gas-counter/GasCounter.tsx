@@ -8,7 +8,6 @@ import {CircularProgress} from "@mui/material";
 const GasCounter = () => {
 
     const [gasCounter, setGasCounter] = useState<GasCounterType | null>(null)
-    const [gasCounterPlan, setGasCounterPlan] = useState<string | null>(null)
     const [gas, setGas] = useState(0)
     const [dateStart, setDateStart] = useState('')
 
@@ -17,7 +16,6 @@ const GasCounter = () => {
         api.getGasCounter()
             .then((resp) => {
                 setGasCounter(resp.data)
-                setGasCounterPlan(resp.data.count_plan)
                 setDateStart(resp.data.to_date)
             })
             .catch((err) => {
@@ -26,28 +24,26 @@ const GasCounter = () => {
     }, [])
 
     useEffect(() => {
-        const startDate = new Date('2023-01-01');
         const now = new Date()
-        const endDate = new Date(dateStart);
+        const startDate = new Date(dateStart);
 
-        const totalSeconds = ((endDate.getTime() - startDate.getTime()) - (endDate.getTime() - startDate.getTime()) % 100) / 1000;
-        const totalSecToday = ((now.getTime() - startDate.getTime()) - (now.getTime() - startDate.getTime()) % 1000) / 1000
-        let unitsPerSecond = Number(gasCounter?.count) / totalSeconds
-        let gasSoldToday = unitsPerSecond * totalSecToday;
-        let gasIn = ((Number(gasCounter?.count) - gasSoldToday) / 30 / 24 / 3600)
+        let interval = ((now.getTime() - startDate.getTime()) - (now.getTime() - startDate.getTime()) % 1000) / 1000;
 
+        let gasInSeconds = ((Number(gasCounter?.count_plan) - Number(gasCounter?.count)) / 30 / 24 / 3600).toFixed(2)
+        console.log((Number(gasCounter?.count_plan) - Number(gasCounter?.count)))
+        let currentGasValue = Math.round(interval * Number(gasInSeconds)) + (Number(gasCounter?.count))
 
-        let i = Math.round(unitsPerSecond * Number(gasIn)) + gasSoldToday
-
+        currentGasValue = Math.round(Number(parseFloat(String(currentGasValue)))) + Number(parseInt(gasInSeconds))
+        console.log(Math.round(Number(parseFloat(String(currentGasValue)))) )
         const timeOut = setTimeout(() => {
-            setGas(i)
-        }, 1000)
+            setGas(currentGasValue)
+        }, 980)
 
         return () => {
             clearTimeout(timeOut)
         }
 
-    }, [dateStart, gas, gasCounter?.count]);
+    }, [dateStart, gas, gasCounter?.count, gasCounter?.count_plan]);
     return (
         <div className={style.gasCounter}>
             <div>Реализовано газа за 2023 год</div>
